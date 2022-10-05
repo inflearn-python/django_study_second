@@ -1,3 +1,5 @@
+import re
+
 from django import forms
 from .models import Post
 
@@ -5,23 +7,11 @@ from .models import Post
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = '__all__'
+        fields = ['message', 'photo', 'tag_set', 'is_public']
+        # exclude = []
 
-
-# class PostModelForm(forms.ModelForm):
-#     class Meta:
-#         model = Post
-#         fields = ['message', 'is_public']
-
-# form = PostModelForm(request.POST)
-# if form.is_valid():
-#     post = form.save(commit=False)
-#     post.author = request.user
-#     post.ip = request.META['REMOTE_ADDR']
-#     post.save()
-
-
-# class PostForm(forms.Form):
-#     email = forms.EmailField()
-#     content = forms.CharField(widget=forms.Textarea)
-#     created_at = forms.DateTimeField()
+    def clean_message(self):
+        message = self.cleaned_data.get('message')
+        if message:
+            message = re.sub(r'[a-zA-Z]+', '', message)
+        return message
