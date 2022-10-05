@@ -2,10 +2,16 @@ from django import forms
 from .models import Post
 
 
-class PostModelForm(forms.ModelForm):
+class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ['message', 'is_public']
+        fields = '__all__'
+
+
+# class PostModelForm(forms.ModelForm):
+#     class Meta:
+#         model = Post
+#         fields = ['message', 'is_public']
 
 # form = PostModelForm(request.POST)
 # if form.is_valid():
